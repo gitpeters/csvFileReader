@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="80c057f9-5497-4a3f-a01f-a49785ea4ea3" name="Changes" comment="created a main class &quot;CSVFileREader&quot;">
+    <list default="true" id="80c057f9-5497-4a3f-a01f-a49785ea4ea3" name="Changes" comment="create encapsulation class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/CSVFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CSVFileReader.java" afterDir="false" />
     </list>
@@ -62,7 +62,28 @@
       <option name="project" value="LOCAL" />
       <updated>1664697431761</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="added apache CSV and mysql connector dependencies in pom.xml">
+      <created>1664697879907</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1664697879908</updated>
+    </task>
+    <task id="LOCAL-00004" summary="create data_access_object">
+      <created>1664697920280</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1664697920280</updated>
+    </task>
+    <task id="LOCAL-00005" summary="create encapsulation class">
+      <created>1664698331135</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1664698331135</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -79,6 +100,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commits" />
     <MESSAGE value="created a main class &quot;CSVFileREader&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="created a main class &quot;CSVFileREader&quot;" />
+    <MESSAGE value="added apache CSV and mysql connector dependencies in pom.xml" />
+    <MESSAGE value="create data_access_object" />
+    <MESSAGE value="create encapsulation class" />
+    <option name="LAST_COMMIT_MESSAGE" value="create encapsulation class" />
   </component>
 </project>
