@@ -13,17 +13,18 @@ import java.util.Map;
 
 public class CSVFileReader {
     public static void main(String[] args) {
-
+        dbconnection();
+        DAO();
     }
-
     public static void DAO(){
         String filePath = "C:\\Users\\ABRAHAM\\Desktop\\People-data.csv";
-        try{
+
+        try {
             BufferedReader lineReader = new BufferedReader(new FileReader(filePath));
             CSVParser records = CSVParser.parse(lineReader, CSVFormat.EXCEL.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
-
-            ArrayList<PeopleData> data = new ArrayList<PeopleData>();
-            for (CSVRecord record: records) {
+            ArrayList<PeopleData> people = new ArrayList<PeopleData>();
+            //Iterate through the csv file
+            for(CSVRecord record: records){
                 PeopleData pd = new PeopleData();
                 pd.setFirst_name(record.get(0));
                 pd.setLast_name(record.get(1));
@@ -33,54 +34,47 @@ public class CSVFileReader {
                 pd.setPhone(record.get(7));
                 pd.setEmail(record.get(9));
 
-                data.add(pd);
-            }//end of record iteration
-
-            PreparedStatement pst = null;
-            Connection con = dbconnection();
-            String sql = "INSERT INTO record(first_name, last_name, company, address, city, phone, email) VALUES (?,?,?,?,?,?,?)";
-            String sqlSelect = "SELECT * FROM record";
-
-            Statement stmt = con.createStatement();
-            ResultSet resultSet = stmt.executeQuery(sqlSelect);
-            pst = con.prepareStatement(sql);
-
-            //pass the resultset data to array
-            ArrayList<ResultSet> resData = new ArrayList<ResultSet>();
-
-            //create a map to hold the result data and set a session
-            Map<String, ArrayList<ResultSet>> map = new HashMap<String, ArrayList<ResultSet>>();
-            //loop through the resultset
-            while(resultSet.next()){
-                //set session
-                map.put(resultSet.getString("email"), resData);
+                people.add(pd);
             }
 
-            //iterate encapsulation class
-            for(PeopleData pd: data){
-                //check if record existed in database or not
-                if(!map.containsKey(pd.getEmail())){
-                    pst.setString(1, pd.getFirst_name());
-                    pst.setString(2, pd.getLast_name());
-                    pst.setString(3, pd.getCompany());
-                    pst.setString(4, pd.getAddress());
-                    pst.setString(5, pd.getCity());
-                    pst.setString(6, pd.getPhone());
-                    pst.setString(7, pd.getEmail());
-                }else{
-                    System.out.println("Record already existed");
+            //database query
+            PreparedStatement statement = null;
+            Connection con = dbconnection();
+            String sqlSelect = "SELECT * FROM record";//select from db to compare if record exist
+            String sql = "INSERT INTO record (first_name, last_name, company, address, city, phone, email) VALUES (?,?,?,?,?,?,?)";//insert new records to db
+            statement = con.prepareStatement(sql);
+            Statement stmt = con.createStatement();
+            ResultSet res = stmt.executeQuery(sqlSelect);
+            ArrayList<ResultSet> resdata = new ArrayList<ResultSet>();//store the queried data into an array
+            Map<String,ArrayList<ResultSet>> map = new HashMap<String, ArrayList<ResultSet>>();//map and set session
+            while (res.next()) {
+                map.put(res.getString("email"), resdata);
+            }
+            for(PeopleData st:people){
+                if(!map.containsKey(st.getEmail())){
+                    statement.setString(1, st.getFirst_name());
+                    statement.setString(2, st.getLast_name());
+                    statement.setString(3, st.getCompany());
+                    statement.setString(4, st.getAddress());
+                    statement.setString(5, st.getCity());
+                    statement.setString(6, st.getPhone());
+                    statement.setString(7, st.getEmail());
+                    statement.addBatch();
+                }else {
+                    System.out.println("Records already exist!");
                 }
             }
-            pst.executeBatch();
+            statement.executeBatch();
             con.commit();
             con.close();
-
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FileNotFoundException e){
             throw new RuntimeException(e);
+        }catch (IOException ex){
+            ex.printStackTrace();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }catch (NumberFormatException e){
+            e.printStackTrace();
         }
     }
 
